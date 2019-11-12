@@ -1,9 +1,13 @@
 import pygame
 
+from model import initialize_board, initialize_snake, set_new_position
+from view import draw
+
 step = 20
 width = 800
 height = 600
 dimensions = (width, height)
+
 
 pygame.init()
 screen = pygame.display.set_mode(dimensions)
@@ -22,20 +26,10 @@ def turn(direction):
         return 1
     return direction
 
-def set_new_position(x_pos, y_pos, direction):
-    if direction == 2:
-        return (x_pos, y_pos + step)
-    if direction == 0:
-        return (x_pos, y_pos - step)
-    if direction == 3:
-        return (x_pos - step, y_pos)
-    if direction == 1:
-        return (x_pos + step, y_pos)
-    return (x_pos, y_pos)
 
-head_x = 400
-head_y = 300
 head_direction = 0
+board = initialize_board()
+snake = initialize_snake(board)
 
 while True:
 
@@ -43,14 +37,15 @@ while True:
         if event.type == pygame.QUIT:
             exit(1)
     head_direction = turn(head_direction)
-    head_x, head_y = set_new_position(head_x, head_y, head_direction)
+
+    set_new_position(head_direction, snake, board)
 
     screen.fill((255, 255, 255))
 
-    kwadrat = pygame.Rect(head_x, head_y, 20, 20)
-    pygame.draw.rect(screen, (128, 128, 128), kwadrat)
+    draw(board, screen)
 
     pygame.display.flip()
+
     counter = clock.tick(16)
 
 
