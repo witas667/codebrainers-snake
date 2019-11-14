@@ -1,8 +1,9 @@
 import pygame
 
-def draw(board, screen):
+
+def draw(board, screen, score):
     for coordinates, value in board.items():
-        new_coordinates = map(lambda x: x*20, coordinates)
+        new_coordinates = map(lambda x: x * 20, coordinates)
         if value == "SnakeHead":
             head_x = coordinates[0] * 20
             head_y = coordinates[1] * 20
@@ -18,3 +19,7 @@ def draw(board, screen):
             apple_y = coordinates[1]
             head_rect = pygame.Rect(*new_coordinates, 20, 20)
             pygame.draw.rect(screen, (255, 0, 0), head_rect)
+
+    font = pygame.font.Font(pygame.font.get_default_font(), 50)
+    text = font.render(str(score), True, (255, 255, 0))
+    screen.blit(text, dest=(30, 30))
